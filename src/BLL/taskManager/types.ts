@@ -1,4 +1,4 @@
-export type TaskStatus = "todo" | "in_progress" | "done";
+export type TaskStatus = "todo" | "in-progress" | "done";
 export type TaskPriority = "high" | "medium" | "low";
 export type ViewMode = "kanban" | "list";
 export type SortField = "due_date" | "priority";
@@ -46,13 +46,34 @@ export interface ValidationErrors {
   dueDate?: string;
 }
 
+export interface TaskManagerState {
+  tasks: Task[];
+  filters: TaskFilters;
+  sort: SortState;
+  view: ViewMode;
+}
+
+export interface AppShellNavItem {
+  icon: string;
+  label: string;
+  active?: boolean;
+  count?: string;
+  link?: string;
+}
+
+export interface KanbanColumnDef {
+  status: TaskStatus;
+  title: string;
+  accent: string;
+}
+
 export const STATUS_LABELS: Record<TaskStatus, string> = {
   todo: "To do",
-  in_progress: "In Progress",
+  "in-progress": "In Progress",
   done: "Done",
 };
 
-export const STATUS_ORDER: TaskStatus[] = ["todo", "in_progress", "done"];
+export const STATUS_ORDER: TaskStatus[] = ["todo", "in-progress", "done"];
 export const PRIORITY_ORDER: Record<TaskPriority, number> = {
   high: 0,
   medium: 1,

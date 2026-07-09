@@ -13,10 +13,13 @@ const priorityOptions: { value: TaskPriority | "all"; label: string }[] = [
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center gap-3" data-testid="filter-bar">
-    <div class="relative">
+  <div
+    class="w-full md:w-auto flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2 sm:gap-3"
+    data-testid="filter-bar"
+  >
+    <div class="relative w-full sm:w-auto">
       <select
-        class="appearance-none pl-9 pr-8 h-10 rounded-xl border border-border-subtle bg-white text-[13px] text-ink-700 hover:border-border cursor-pointer focus:outline-none focus:border-brand-500"
+        class="w-full sm:w-auto sm:min-w-45 appearance-none pl-9 pr-8 h-10 rounded-xl border border-border-subtle bg-white text-[13px] text-ink-700 hover:border-border cursor-pointer focus:outline-none focus:border-brand-500"
         :value="props.manager.filters.priority"
         @change="
           (e) =>
@@ -42,9 +45,9 @@ const priorityOptions: { value: TaskPriority | "all"; label: string }[] = [
       ></i>
     </div>
 
-    <div class="relative">
+    <div class="relative w-full sm:w-auto">
       <select
-        class="appearance-none pl-9 pr-8 h-10 rounded-xl border border-border-subtle bg-white text-[13px] text-ink-700 hover:border-border cursor-pointer focus:outline-none focus:border-brand-500"
+        class="w-full sm:w-auto sm:min-w-45 appearance-none pl-9 pr-8 h-10 rounded-xl border border-border-subtle bg-white text-[13px] text-ink-700 hover:border-border cursor-pointer focus:outline-none focus:border-brand-500"
         :value="props.manager.filters.assigneeId"
         @change="
           (e) =>
@@ -73,7 +76,7 @@ const priorityOptions: { value: TaskPriority | "all"; label: string }[] = [
         props.manager.filters.assigneeId !== 'all'
       "
       type="button"
-      class="px-3 h-10 rounded-xl text-[13px] text-ink-500 hover:text-ink-900 hover:bg-canvas border border-transparent"
+      class="px-3 h-10 rounded-xl text-[13px] text-ink-500 hover:text-ink-900 hover:bg-canvas border border-transparent self-start cursor-pointer"
       @click="props.manager.clearFilters()"
       data-testid="filter-clear"
     >

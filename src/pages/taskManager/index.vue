@@ -51,7 +51,7 @@ const cancelDelete = (): void => {
 
 const filteredCount = computed<number>(() =>
   manager.view === "kanban"
-    ? (["todo", "in_progress", "done"] as TaskStatus[]).reduce(
+    ? (["todo", "in-progress", "done"] as TaskStatus[]).reduce(
         (n, s) => n + manager.tasksByStatus(s).length,
         0,
       )
@@ -61,17 +61,24 @@ const filteredCount = computed<number>(() =>
 
 <template>
   <AppShell>
-    <div class="px-8 py-7" data-testid="task-manager-page">
+    <div
+      class="px-4 sm:px-6 lg:px-8 py-5 sm:py-7"
+      data-testid="task-manager-page"
+    >
       <!-- Page header -->
-      <div class="flex items-start justify-between gap-6">
+      <div
+        class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between md:gap-6"
+      >
         <div>
           <h1 class="text-page-title text-ink-900">Tasks</h1>
           <p class="mt-1 text-body-xs text-ink-500">
             Short description will be placed here
           </p>
         </div>
-        <div class="flex items-center gap-3">
-          <div class="hidden md:flex items-center -space-x-2">
+        <div
+          class="flex items-center gap-2 sm:gap-3 w-full md:w-auto md:justify-start"
+        >
+          <div class="hidden lg:flex items-center -space-x-2">
             <span
               v-for="a in manager.assignees.slice(0, 4)"
               :key="a.id"
@@ -88,7 +95,7 @@ const filteredCount = computed<number>(() =>
           </div>
           <button
             type="button"
-            class="px-4 h-11 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-[13px] font-semibold inline-flex items-center gap-2 shadow-sm cursor-pointer"
+            class="px-4 h-11 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-[13px] font-semibold inline-flex items-center justify-center gap-2 shadow-sm cursor-pointer flex-1 sm:flex-none"
             @click="openCreate('todo')"
             data-testid="new-task-btn"
           >
@@ -97,7 +104,7 @@ const filteredCount = computed<number>(() =>
           </button>
           <button
             type="button"
-            class="px-4 h-11 rounded-xl border border-border-subtle text-ink-700 text-[13px] font-semibold inline-flex items-center gap-2 bg-white hover:bg-canvas"
+            class="hidden sm:inline-flex px-4 h-11 rounded-xl border border-border-subtle text-ink-700 text-[13px] font-semibold items-center gap-2 bg-white hover:bg-canvas"
           >
             <i class="fa-solid fa-share-nodes text-[12px]"></i>
             Share
@@ -106,9 +113,11 @@ const filteredCount = computed<number>(() =>
       </div>
 
       <!-- Tabs -->
-      <div class="mt-7 flex items-end justify-between gap-4 flex-wrap">
+      <div
+        class="mt-6 sm:mt-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-4"
+      >
         <ViewToggle :manager="manager" />
-        <div class="flex items-center gap-3 pb-2">
+        <div class="flex items-center gap-3 md:pb-2 w-full md:w-auto">
           <FilterBar :manager="manager" />
           <div class="hidden md:flex items-center gap-2 text-ink-500">
             <span class="text-meta">{{ filteredCount }} shown</span>
@@ -117,7 +126,7 @@ const filteredCount = computed<number>(() =>
       </div>
 
       <!-- Content -->
-      <section class="mt-6">
+      <section class="mt-5 sm:mt-6">
         <KanbanBoard
           v-if="manager.view === 'kanban'"
           :manager="manager"

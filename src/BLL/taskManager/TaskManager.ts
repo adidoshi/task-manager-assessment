@@ -11,16 +11,10 @@ import type {
   Assignee,
   TaskInput,
   ValidationErrors,
+  TaskManagerState,
 } from "./types";
 import { PRIORITY_ORDER } from "./types";
 import { mockTasks, mockAssignees } from "./mockData";
-
-interface State {
-  tasks: Task[];
-  filters: TaskFilters;
-  sort: SortState;
-  view: ViewMode;
-}
 
 const TASKS_KEY = "tm.tasks.v1";
 const VIEW_KEY = "tm.view.v1";
@@ -49,11 +43,11 @@ const AVATAR_PALETTE: string[] = [
  * Consumers pass this instance down as a prop; no store framework.
  */
 export class TaskManager {
-  private state: State;
+  private state: TaskManagerState;
   readonly assignees: Assignee[] = mockAssignees;
 
   constructor() {
-    this.state = reactive<State>({
+    this.state = reactive<TaskManagerState>({
       tasks: this.loadTasks(),
       filters: this.loadFilters(),
       sort: this.loadSort(),
@@ -98,11 +92,59 @@ export class TaskManager {
       return null;
     }
   }
+
+  private cloneMockTasks(): Task[] {
+    return mockTasks.map((t) => ({ ...t, tags: [...t.tags] }));
+  }
+
+  private normalizePersistedTasks(tasks: Task[]): Task[] {
+    return tasks.map((t) => {
+      const rawStatus = (t as { status?: unknown }).status;
+      let status: TaskStatus;
+
+      if (
+        rawStatus === "todo" ||
+        rawStatus === "done" ||
+        rawStatus === "in-progress"
+      ) {
+        status = rawStatus;
+      } else if (rawStatus === "in_progress") {
+        // Backward compatibility with old persisted shape.
+        status = "in-progress";
+      } else {
+        status = "todo";
+      }
+
+      return {
+        ...t,
+        status,
+        tags: Array.isArray(t.tags) ? [...t.tags] : [],
+      };
+    });
+  }
+
   private loadTasks(): Task[] {
     const persisted = this.read<Task[]>(TASKS_KEY);
-    return persisted && Array.isArray(persisted) && persisted.length > 0
-      ? persisted
-      : mockTasks.map((t) => ({ ...t, tags: [...t.tags] }));
+
+    if (persisted && Array.isArray(persisted) && persisted.length > 0) {
+      const knownAssigneeIds = new Set(this.assignees.map((a) => a.id));
+      const assigneesCompatible = persisted.every((t) =>
+        knownAssigneeIds.has(t.assignee?.id),
+      );
+
+      if (assigneesCompatible) {
+        const normalized = this.normalizePersistedTasks(persisted);
+        this.persist(TASKS_KEY, normalized);
+        return normalized;
+      }
+
+      // If assignee IDs changed in mock data, invalidate stale persisted tasks.
+      const fresh = this.cloneMockTasks();
+      this.persist(TASKS_KEY, fresh);
+      return fresh;
+    }
+
+    return this.cloneMockTasks();
   }
   private loadView(): ViewMode {
     const v = this.read<ViewMode>(VIEW_KEY);
@@ -110,7 +152,23 @@ export class TaskManager {
   }
   private loadFilters(): TaskFilters {
     const f = this.read<TaskFilters>(FILTER_KEY);
-    return f ?? { priority: "all", assigneeId: "all" };
+    if (!f) return { priority: "all", assigneeId: "all" };
+
+    const validPriority: TaskPriority | "all" =
+      f.priority === "all" ||
+      f.priority === "high" ||
+      f.priority === "medium" ||
+      f.priority === "low"
+        ? f.priority
+        : "all";
+
+    const validAssigneeId: string | "all" =
+      f.assigneeId === "all" ||
+      this.assignees.some((a) => a.id === f.assigneeId)
+        ? f.assigneeId
+        : "all";
+
+    return { priority: validPriority, assigneeId: validAssigneeId };
   }
   private loadSort(): SortState {
     const s = this.read<SortState>(SORT_KEY);

@@ -36,7 +36,7 @@ const statusChipClass = computed(() => {
   switch (props.task.status) {
     case "todo":
       return "bg-status-todoBg text-status-todoFg";
-    case "in_progress":
+    case "in-progress":
       return "bg-status-progBg text-status-progFg";
     case "done":
       return "bg-status-doneBg text-status-doneFg";
@@ -46,7 +46,7 @@ const statusDotClass = computed(() => {
   switch (props.task.status) {
     case "todo":
       return "bg-status-todoFg";
-    case "in_progress":
+    case "in-progress":
       return "bg-status-progFg";
     case "done":
       return "bg-status-doneFg";
@@ -56,7 +56,7 @@ const statusChipLabel = computed(() => {
   switch (props.task.status) {
     case "todo":
       return "Not Started";
-    case "in_progress":
+    case "in-progress":
       return "On Track";
     case "done":
       return "Complete";
