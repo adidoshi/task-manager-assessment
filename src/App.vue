@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import TaskManagerPage from './pages/taskManager/index.vue'
 </script>
 
 <template>
-  <HelloWorld />
+  <TaskManagerPage />
 </template>
