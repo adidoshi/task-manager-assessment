@@ -27,19 +27,31 @@ const priorityBadge = (p: Task["priority"]): string => {
   }
 };
 
-const statusBadge = (s: Task["status"]): { cls: string; label: string } => {
+const statusBadge = (
+  s: Task["status"],
+): { cls: string; label: string; textClass?: string } => {
   switch (s) {
     case "todo":
-      return { cls: "bg-status-todoBg text-status-todoFg", label: "To do" };
+      return {
+        cls: "bg-status-todoBg text-status-todoFg",
+        label: "To do",
+      };
     case "in-progress":
       return {
         cls: "bg-status-progBg text-status-progFg",
         label: "In Progress",
+        textClass: "text-[8px]",
       };
     case "done":
-      return { cls: "bg-status-doneBg text-status-doneFg", label: "Done" };
+      return {
+        cls: "bg-status-doneBg text-status-doneFg",
+        label: "Done",
+      };
     default:
-      return { cls: "bg-status-todoBg text-status-todoFg", label: "To do" };
+      return {
+        cls: "bg-status-todoBg text-status-todoFg",
+        label: "To do",
+      };
   }
 };
 </script>
@@ -133,8 +145,11 @@ const statusBadge = (s: Task["status"]): { cls: string; label: string } => {
             </td>
             <td class="px-4 py-4">
               <span
-                class="inline-flex items-center px-2 py-0.5 rounded-full text-badge"
-                :class="statusBadge(task.status).cls"
+                class="inline-flex items-center px-2 py-0.5 rounded-full text-badge whitespace-nowrap"
+                :class="[
+                  statusBadge(task.status).cls,
+                  statusBadge(task.status).textClass,
+                ]"
                 >{{ statusBadge(task.status).label }}</span
               >
             </td>
