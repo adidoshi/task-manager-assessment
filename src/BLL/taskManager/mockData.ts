@@ -1,10 +1,23 @@
-import type { Task } from "./types";
+import type { Assignee, Task } from "./types";
 
 const daysAgo = (n: number) =>
   new Date(Date.now() - n * 86400000).toISOString().slice(0, 10);
 
 const daysFromNow = (n: number) =>
   new Date(Date.now() + n * 86400000).toISOString().slice(0, 10);
+
+export const mockAssignees: Assignee[] = [
+  { id: "priya", name: "Priya Sharma" },
+  { id: "rahul", name: "Rahul Verma" },
+  { id: "aisha", name: "Aisha Khan" },
+  { id: "neha", name: "Neha Patel" },
+];
+
+const byName = (name: string): Assignee => {
+  const found = mockAssignees.find((a) => a.name === name);
+  if (!found) throw new Error(`Unknown assignee: ${name}`);
+  return found;
+};
 
 export const mockTasks: Task[] = [
   {
@@ -14,8 +27,8 @@ export const mockTasks: Task[] = [
       "Page size parameter is ignored when filters are applied, causing duplicate rows on page 2.",
     priority: "high",
     dueDate: daysAgo(5),
-    assignee: "Priya Sharma",
-    status: "in-progress",
+    assignee: byName("Priya Sharma"),
+    status: "in_progress",
     tags: ["backend", "blocked"],
     createdAt: daysAgo(15),
   },
@@ -26,7 +39,7 @@ export const mockTasks: Task[] = [
       "Add reset password request, token validation, and new password submission screens.",
     priority: "high",
     dueDate: daysFromNow(7),
-    assignee: "Rahul Verma",
+    assignee: byName("Rahul Verma"),
     status: "todo",
     tags: ["frontend", "auth"],
     createdAt: daysAgo(8),
@@ -38,7 +51,7 @@ export const mockTasks: Task[] = [
       "Investigate slow database queries causing report generation requests to exceed timeout.",
     priority: "high",
     dueDate: daysAgo(2),
-    assignee: "Aisha Khan",
+    assignee: byName("Aisha Khan"),
     status: "todo",
     tags: ["backend", "api"],
     createdAt: daysAgo(10),
@@ -50,8 +63,8 @@ export const mockTasks: Task[] = [
       "Update spacing, typography, and responsive behavior to match the latest design system.",
     priority: "medium",
     dueDate: daysFromNow(5),
-    assignee: "Neha Patel",
-    status: "in-progress",
+    assignee: byName("Neha Patel"),
+    status: "in_progress",
     tags: ["frontend", "ux"],
     createdAt: daysAgo(6),
   },
@@ -62,7 +75,7 @@ export const mockTasks: Task[] = [
       "Capture create, update, and delete events performed by administrators.",
     priority: "medium",
     dueDate: daysFromNow(2),
-    assignee: "Priya Sharma",
+    assignee: byName("Priya Sharma"),
     status: "done",
     tags: ["backend", "api"],
     createdAt: daysAgo(12),
@@ -74,7 +87,7 @@ export const mockTasks: Task[] = [
       "Revise onboarding messages to improve clarity and reduce user confusion.",
     priority: "medium",
     dueDate: daysFromNow(10),
-    assignee: "Rahul Verma",
+    assignee: byName("Rahul Verma"),
     status: "todo",
     tags: ["ux"],
     createdAt: daysAgo(4),
@@ -86,7 +99,7 @@ export const mockTasks: Task[] = [
       "Reduce unnecessary re-renders to improve chart performance on large datasets.",
     priority: "low",
     dueDate: daysFromNow(4),
-    assignee: "Aisha Khan",
+    assignee: byName("Aisha Khan"),
     status: "done",
     tags: ["frontend"],
     createdAt: daysAgo(14),
@@ -98,7 +111,7 @@ export const mockTasks: Task[] = [
       "Remove obsolete feature flags and related configuration from the codebase.",
     priority: "low",
     dueDate: daysFromNow(8),
-    assignee: "Neha Patel",
+    assignee: byName("Neha Patel"),
     status: "todo",
     tags: ["backend"],
     createdAt: daysAgo(5),
@@ -110,8 +123,8 @@ export const mockTasks: Task[] = [
       "Correct placeholder mapping so order confirmation emails render customer details properly.",
     priority: "low",
     dueDate: daysAgo(1),
-    assignee: "Priya Sharma",
-    status: "in-progress",
+    assignee: byName("Priya Sharma"),
+    status: "in_progress",
     tags: ["api"],
     createdAt: daysAgo(7),
   },
@@ -122,7 +135,7 @@ export const mockTasks: Task[] = [
       "Add proper labels and keyboard navigation support for filter controls.",
     priority: "high",
     dueDate: daysFromNow(12),
-    assignee: "Rahul Verma",
+    assignee: byName("Rahul Verma"),
     status: "done",
     tags: ["frontend", "ux"],
     createdAt: daysAgo(9),
@@ -134,8 +147,8 @@ export const mockTasks: Task[] = [
       "Switch frontend integration to the new versioned profile endpoint and update response mapping.",
     priority: "medium",
     dueDate: daysFromNow(6),
-    assignee: "Aisha Khan",
-    status: "in-progress",
+    assignee: byName("Aisha Khan"),
+    status: "in_progress",
     tags: ["backend", "api"],
     createdAt: daysAgo(11),
   },
@@ -146,7 +159,7 @@ export const mockTasks: Task[] = [
       "Prevent oversized uploads with client-side validation and clear error messages.",
     priority: "low",
     dueDate: daysFromNow(9),
-    assignee: "Neha Patel",
+    assignee: byName("Neha Patel"),
     status: "todo",
     tags: ["frontend", "auth"],
     createdAt: daysAgo(3),

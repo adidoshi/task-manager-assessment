@@ -1,39 +1,66 @@
+export type TaskStatus = "todo" | "in_progress" | "done";
+export type TaskPriority = "high" | "medium" | "low";
+export type ViewMode = "kanban" | "list";
+export type SortField = "due_date" | "priority";
+export type SortDirection = "asc" | "desc";
+
+export interface Assignee {
+  id: string;
+  name: string;
+}
+
 export interface Task {
   id: string;
   title: string;
   description: string;
-  priority: TaskPriority;
-  dueDate: string;
-  assignee: string;
   status: TaskStatus;
+  priority: TaskPriority;
+  dueDate: string; // ISO yyyy-mm-dd
+  assignee: Assignee;
   tags: string[];
   createdAt: string;
 }
 
-export type TaskStatus = "todo" | "in-progress" | "done";
-export type TaskPriority = "low" | "medium" | "high";
-
-// filters
-export type SortField = "dueDate" | "priority";
-export type SortDirection = "asc" | "desc";
-export type ViewMode = "kanban" | "list";
-
 export interface TaskFilters {
-  priority?: TaskPriority;
-  assignee?: string;
+  priority: TaskPriority | "all";
+  assigneeId: string | "all";
 }
 
-// Payload types for create/edit
-// since id/createdAt shouldn't be settable by the user
-export type TaskInput = Omit<Task, "id" | "createdAt">;
+export interface SortState {
+  field: SortField;
+  direction: SortDirection;
+}
 
-export interface TaskFormErrors {
+export interface TaskInput {
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: TaskPriority;
+  dueDate: string;
+  assigneeId: string;
+  tags: string[];
+}
+
+export interface ValidationErrors {
   title?: string;
   dueDate?: string;
 }
 
-// modal union
-export type ModalState =
-  | { mode: "closed" }
-  | { mode: "create" }
-  | { mode: "edit"; task: Task };
+export const STATUS_LABELS: Record<TaskStatus, string> = {
+  todo: "To do",
+  in_progress: "In Progress",
+  done: "Done",
+};
+
+export const STATUS_ORDER: TaskStatus[] = ["todo", "in_progress", "done"];
+export const PRIORITY_ORDER: Record<TaskPriority, number> = {
+  high: 0,
+  medium: 1,
+  low: 2,
+};
+
+export const PRIORITY_LABELS: Record<TaskPriority, string> = {
+  high: "High",
+  medium: "Medium",
+  low: "Low",
+};
