@@ -26,7 +26,7 @@ const emptyMessage = computed(() => {
         icon: "fa-clipboard-list",
         text: "Nothing to do — enjoy the calm.",
       };
-    case "in_progress":
+    case "in-progress":
       return { icon: "fa-rocket", text: "No work in flight. Pull a task in." };
     case "done":
       return {

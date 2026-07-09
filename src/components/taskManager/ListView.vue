@@ -31,13 +31,15 @@ const statusBadge = (s: Task["status"]): { cls: string; label: string } => {
   switch (s) {
     case "todo":
       return { cls: "bg-status-todoBg text-status-todoFg", label: "To do" };
-    case "in_progress":
+    case "in-progress":
       return {
         cls: "bg-status-progBg text-status-progFg",
         label: "In Progress",
       };
     case "done":
       return { cls: "bg-status-doneBg text-status-doneFg", label: "Done" };
+    default:
+      return { cls: "bg-status-todoBg text-status-todoFg", label: "To do" };
   }
 };
 </script>

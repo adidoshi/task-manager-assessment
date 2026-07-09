@@ -26,13 +26,13 @@ const setView = (v: ViewMode): void => {
 
 <template>
   <nav
-    class="flex items-center gap-6 border-b border-border-subtle"
+    class="flex items-center gap-4 sm:gap-6 border-b border-border-subtle overflow-x-auto overflow-y-hidden md:overflow-visible"
     data-testid="view-toggle"
   >
     <!-- static tab (matches screenshots) -->
     <button
       type="button"
-      class="relative px-1 pb-3 pt-2 text-[13px] font-semibold text-ink-400"
+      class="hidden md:inline-flex relative px-1 pb-3 pt-2 text-[13px] font-semibold text-ink-400"
     >
       Overview
     </button>
@@ -60,15 +60,9 @@ const setView = (v: ViewMode): void => {
 
     <button
       type="button"
-      class="relative px-1 pb-3 pt-2 text-[13px] font-semibold text-ink-400 flex items-center gap-2"
+      class="hidden md:inline-flex relative px-1 pb-3 pt-2 text-[13px] font-semibold text-ink-400 items-center gap-2"
     >
       <i class="fa-solid fa-table-cells"></i>Table
-    </button>
-    <button
-      type="button"
-      class="relative px-1 pb-3 pt-2 text-[13px] font-semibold text-ink-400 flex items-center gap-2"
-    >
-      <i class="fa-solid fa-clock"></i>Timeline
     </button>
   </nav>
 </template>

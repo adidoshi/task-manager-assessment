@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TaskManager } from "../../BLL/taskManager/TaskManager";
-import type { TaskStatus } from "../../BLL/taskManager/types";
+import type { KanbanColumnDef, TaskStatus } from "../../BLL/taskManager/types";
 import KanbanColumn from "./KanbanColumn.vue";
 
 defineProps<{ manager: TaskManager }>();
@@ -10,15 +10,9 @@ const emit = defineEmits<{
   (e: "add", status: TaskStatus): void;
 }>();
 
-interface ColumnDef {
-  status: TaskStatus;
-  title: string;
-  accent: string;
-}
-
-const columns: ColumnDef[] = [
+const columns: KanbanColumnDef[] = [
   { status: "todo", title: "To do", accent: "#F59E0B" },
-  { status: "in_progress", title: "In Progress", accent: "#2563EB" },
+  { status: "in-progress", title: "In Progress", accent: "#2563EB" },
   { status: "done", title: "Done", accent: "#EC4899" },
 ];
 </script>

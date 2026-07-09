@@ -111,9 +111,9 @@ const submit = (evt: Event): void => {
 };
 
 const priorities: TaskPriority[] = ["low", "medium", "high"];
-const statuses: TaskStatus[] = ["todo", "in_progress", "done"];
+const statuses: TaskStatus[] = ["todo", "in-progress", "done"];
 const statusLabel = (s: TaskStatus): string =>
-  s === "todo" ? "To do" : s === "in_progress" ? "In Progress" : "Done";
+  s === "todo" ? "To do" : s === "in-progress" ? "In Progress" : "Done";
 
 const priorityChipClass = (p: TaskPriority): string => {
   const isActive = form.priority === p;
@@ -352,7 +352,7 @@ const today = new Date().toISOString().slice(0, 10);
           >
             <button
               type="button"
-              class="px-4 h-10 rounded-xl text-[13px] font-semibold text-ink-700 hover:bg-white border border-transparent hover:border-border-subtle"
+              class="px-4 h-10 rounded-xl text-[13px] font-semibold text-ink-700 hover:bg-white border border-transparent hover:border-border-subtle cursor-pointer"
               @click="emit('close')"
               data-testid="task-modal-cancel"
             >
@@ -360,7 +360,7 @@ const today = new Date().toISOString().slice(0, 10);
             </button>
             <button
               type="submit"
-              class="px-4 h-10 rounded-xl text-[13px] font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm inline-flex items-center gap-2"
+              class="px-4 h-10 rounded-xl text-[13px] font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm inline-flex items-center gap-2 cursor-pointer"
               data-testid="task-modal-save"
             >
               <i
